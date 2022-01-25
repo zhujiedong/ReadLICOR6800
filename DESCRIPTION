@@ -1,12 +1,16 @@
 Package: ReadLICOR6800
-Title: What the Package Does (One Line, Title Case)
+Title: ReadLICOR6800
 Version: 0.0.0.9000
-Authors@R: 
-    person("First", "Last", , "first.last@example.com", role = c("aut", "cre"),
-           comment = c(ORCID = "YOUR-ORCID-ID"))
-Description: What the package does (one paragraph).
-License: `use_mit_license()`, `use_gpl3_license()` or friends to pick a
-    license
+Description: A tool for read li-6800 excel files.
+Authors@R: c(
+    person("Jiedong", "Zhu", , "zhujiedong@yeah.net", c("aut", "cre"))
+    )
 Encoding: UTF-8
-Roxygen: list(markdown = TRUE)
+Depends: R (>= 3.5.0)
+Imports: readxl, zoo
+LazyData: yes
+License: MIT + file LICENSE
+Packaged: 2022-1-20
+Author: Jiedong Zhu [aut, cre]
+Maintainer: Jiedong Zhu <zhujiedong@yeah.net>
 RoxygenNote: 7.1.2

@@ -1,0 +1,92 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
+
+## Purpose
+
+This package is use to read the data of LI-6800 photosynthesis system from LICOR. Currently it only contains 2 functions, one is for read a single excel file (`read_li6800`), and another (`read_li6800_folder`) is read a folder contains data files from LI-6800 as a dataframe, with a coloum of tags.
+
+## Important
+
+I use `readxl` to read the excel data, but you have to select **Options ---> formula ---> Enable iterative calculation** before use the package, or otherwise it will be failed in reading the excel cells that have formulas.
+
+![7HarSf.gif](https://s4.ax1x.com/2022/01/25/7HarSf.gif)
+
+
+# ReadLICOR6800
+
+<!-- badges: start -->
+<!-- badges: end -->
+
+
+## Installation
+
+You can install the development version of ReadLICOR6800 from [GitHub](https://github.com/) with:
+
+``` r
+# install.packages("devtools")
+devtools::install_github("zhujiedong/ReadLICOR6800")
+```
+
+## Example
+
+### Read a single file
+
+This is a basic example which shows you how to solve a common problem:
+
+```{r example}
+library(ReadLICOR6800)
+aci <- read_li6800('inst/extdata/racirtest1.xlsx')
+aci[1:3, 1:6]
+names(aci)
+aci$data_tag
+```
+
+by use the default arguments, the returned dataframe will contain a new column contains the name of the file called `data_tag`, it is used to distinguish files when reading all the files in a folder. the `data_tag` can also be changed to a custom one, use the `tags="custom tags"`, where `custom tags` is what you need. 
+
+if you need to read only one file, it is not needed:
+
+```{r}
+aci <- read_li6800("inst/extdata/racirtest1.xlsx", add_tags = FALSE)
+names(aci)
+head(aci$data_tags)
+```
+
+### Read all files from a folder
+
+It is similar with `read_li6800`, but usually we may need to specify the tags to distinguish the combined dataframe that from lots of excel files, if `tags=NULL`(default), `data_tag`column will use the file name as a tag:
+
+
+```{r}
+list.files("inst/extdata/")
+
+aci <- read_li6800_folder("inst/extdata/")
+names(aci)
+head(aci$data_tag)
+tail(aci$data_tag)
+```
+when use custom tags, make sure the tags have the right order and right length with what the `list.files()` shows
+
+```{r}
+aci <- read_li6800_folder("inst/extdata/", tags = paste('test', 1:2))
+aci[1:3, 1:6]
+names(aci)
+head(aci$data_tag)
+tail(aci$data_tag)
+```
+
+
+If you read Chinese, please refer to [https://photosynthesis-analysis.vercel.app/](https://photosynthesis-analysis.vercel.app/)
+
+
+
