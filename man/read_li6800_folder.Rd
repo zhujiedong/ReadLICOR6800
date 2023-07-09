@@ -6,22 +6,22 @@
 \usage{
 read_li6800_folder(
   data_folder = NULL,
+  startRow = 15,
   add_tags = TRUE,
   tags = NULL,
-  col_names = FALSE,
   ...
 )
 }
 \arguments{
 \item{data_folder}{path of tthe folder that contains LI-6800 excel data files}
 
+\item{startRow}{where the header starts, ie the row start with `obs`}
+
 \item{add_tags}{whether to add a column that contains a tag, it is ued for batch reading of excel files,
 default to be true}
 
 \item{tags}{when add_tags is true, use a characters as a tag,
 if NULL, use file name as defaut tags.}
-
-\item{col_names}{must be false to make sure the data import}
 
 \item{...}{other paras from read_excel}
 }

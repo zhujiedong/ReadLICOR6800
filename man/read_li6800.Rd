@@ -4,12 +4,12 @@
 \alias{read_li6800}
 \title{Title read LI-6800 excel data files.}
 \usage{
-read_li6800(data_files, col_names = FALSE, add_tags = TRUE, tags = NULL, ...)
+read_li6800(data_files, startRow = 15, add_tags = TRUE, tags = NULL, ...)
 }
 \arguments{
 \item{data_files}{path of the LI-6800 data files}
 
-\item{col_names}{must be false to make sure the data import}
+\item{startRow}{where the header starts, ie the row start with `obs`}
 
 \item{add_tags}{whether to add a column that contains a tag, it is ued for batch reading of excel files,
 default to be true}

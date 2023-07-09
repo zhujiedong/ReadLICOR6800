@@ -11,12 +11,8 @@ coloum of tags.
 
 ## Important
 
-I use `readxl` to read the excel data, but you have to select **Options
-—\> formula —\> Enable iterative calculation** before use the package,
-or otherwise it will be failed in reading the excel cells that have
-formulas.
-
-![7HarSf.gif](https://s4.ax1x.com/2022/01/25/7HarSf.gif)
+I use `openxlsx` to read the excel data, because it can deal with the
+Formulas in LI-6800 excel data without any further pre-processing.
 
 # ReadLICOR6800
 
@@ -41,19 +37,12 @@ This is a basic example which shows you how to solve a common problem:
 
 ``` r
 library(ReadLICOR6800)
-aci <- read_li6800('inst/extdata/racirtest1.xlsx')
-#> New names:
-#> * `` -> ...4
-#> * `` -> ...5
-#> * `` -> ...6
-#> * `` -> ...7
-#> * `` -> ...8
-#> * ...
+aci <- read_li6800('inst/extdata/racirtest1.xlsx', startRow = 15)
 aci[1:3, 1:6]
-#>    obs         time elapsed              date   hhmmss averaging
-#> 15   1 1617082892.5       0 20210330 13:41:32 13:41:32         2
-#> 16   2   1617082895     2.5 20210330 13:41:35 13:41:35         2
-#> 17   3 1617082896.5       4 20210330 13:41:36 13:41:36         2
+#>   obs         time elapsed              date   hhmmss averaging
+#> 2   1 1617082892.5       0 20210330 13:41:32 13:41:32         2
+#> 3   2   1617082895     2.5 20210330 13:41:35 13:41:35         2
+#> 4   3 1617082896.5       4 20210330 13:41:36 13:41:36         2
 names(aci)
 #>   [1] "obs"            "time"           "elapsed"        "date"          
 #>   [5] "hhmmss"         "averaging"      "TIME"           "E"             
@@ -71,7 +60,7 @@ names(aci)
 #>  [53] "A_dark"         "LightAdaptedID" "Qmax"           "Fs"            
 #>  [57] "Fm'"            "PhiPS2"         "PS2/1"          "Qabs_fs"       
 #>  [61] "A_fs"           "ETR"            "PhiCO2"         "NPQ"           
-#>  [65] "alt. Fo'"       "DarkPulseID"    "Fmin"           "Fo'"           
+#>  [65] "alt..Fo'"       "DarkPulseID"    "Fmin"           "Fo'"           
 #>  [69] "Fv'/Fm'"        "qP"             "qN"             "qP_Fo"         
 #>  [73] "qN_Fo"          "qL"             "1-qL"           "Qin"           
 #>  [77] "Qabs"           "alpha"          "convert"        "S"             
@@ -172,13 +161,6 @@ if you need to read only one file, it is not needed:
 
 ``` r
 aci <- read_li6800("inst/extdata/racirtest1.xlsx", add_tags = FALSE)
-#> New names:
-#> * `` -> ...4
-#> * `` -> ...5
-#> * `` -> ...6
-#> * `` -> ...7
-#> * `` -> ...8
-#> * ...
 names(aci)
 #>   [1] "obs"            "time"           "elapsed"        "date"          
 #>   [5] "hhmmss"         "averaging"      "TIME"           "E"             
@@ -196,7 +178,7 @@ names(aci)
 #>  [53] "A_dark"         "LightAdaptedID" "Qmax"           "Fs"            
 #>  [57] "Fm'"            "PhiPS2"         "PS2/1"          "Qabs_fs"       
 #>  [61] "A_fs"           "ETR"            "PhiCO2"         "NPQ"           
-#>  [65] "alt. Fo'"       "DarkPulseID"    "Fmin"           "Fo'"           
+#>  [65] "alt..Fo'"       "DarkPulseID"    "Fmin"           "Fo'"           
 #>  [69] "Fv'/Fm'"        "qP"             "qN"             "qP_Fo"         
 #>  [73] "qN_Fo"          "qL"             "1-qL"           "Qin"           
 #>  [77] "Qabs"           "alpha"          "convert"        "S"             
@@ -227,6 +209,9 @@ head(aci$data_tags)
 #> NULL
 ```
 
+But be sure to supply the right `startRow` to read the data. It is the
+header of the measuring data, start with ‘obs’(the first column)
+
 ### Read all files from a folder
 
 It is similar with `read_li6800`, but usually we may need to specify the
@@ -239,20 +224,6 @@ list.files("inst/extdata/")
 #> [1] "racirtest1.xlsx" "racirtest3.xlsx"
 
 aci <- read_li6800_folder("inst/extdata/")
-#> New names:
-#> * `` -> ...4
-#> * `` -> ...5
-#> * `` -> ...6
-#> * `` -> ...7
-#> * `` -> ...8
-#> * ...
-#> New names:
-#> * `` -> ...4
-#> * `` -> ...5
-#> * `` -> ...6
-#> * `` -> ...7
-#> * `` -> ...8
-#> * ...
 names(aci)
 #>   [1] "obs"            "time"           "elapsed"        "date"          
 #>   [5] "hhmmss"         "averaging"      "TIME"           "E"             
@@ -270,7 +241,7 @@ names(aci)
 #>  [53] "A_dark"         "LightAdaptedID" "Qmax"           "Fs"            
 #>  [57] "Fm'"            "PhiPS2"         "PS2/1"          "Qabs_fs"       
 #>  [61] "A_fs"           "ETR"            "PhiCO2"         "NPQ"           
-#>  [65] "alt. Fo'"       "DarkPulseID"    "Fmin"           "Fo'"           
+#>  [65] "alt..Fo'"       "DarkPulseID"    "Fmin"           "Fo'"           
 #>  [69] "Fv'/Fm'"        "qP"             "qN"             "qP_Fo"         
 #>  [73] "qN_Fo"          "qL"             "1-qL"           "Qin"           
 #>  [77] "Qabs"           "alpha"          "convert"        "S"             
@@ -311,20 +282,6 @@ length with what the `list.files()` shows
 
 ``` r
 aci <- read_li6800_folder("inst/extdata/", tags = paste('test', 1:2))
-#> New names:
-#> * `` -> ...4
-#> * `` -> ...5
-#> * `` -> ...6
-#> * `` -> ...7
-#> * `` -> ...8
-#> * ...
-#> New names:
-#> * `` -> ...4
-#> * `` -> ...5
-#> * `` -> ...6
-#> * `` -> ...7
-#> * `` -> ...8
-#> * ...
 aci[1:3, 1:6]
 #>   obs         time elapsed              date   hhmmss averaging
 #> 1   1 1617082892.5       0 20210330 13:41:32 13:41:32         2
@@ -347,7 +304,7 @@ names(aci)
 #>  [53] "A_dark"         "LightAdaptedID" "Qmax"           "Fs"            
 #>  [57] "Fm'"            "PhiPS2"         "PS2/1"          "Qabs_fs"       
 #>  [61] "A_fs"           "ETR"            "PhiCO2"         "NPQ"           
-#>  [65] "alt. Fo'"       "DarkPulseID"    "Fmin"           "Fo'"           
+#>  [65] "alt..Fo'"       "DarkPulseID"    "Fmin"           "Fo'"           
 #>  [69] "Fv'/Fm'"        "qP"             "qN"             "qP_Fo"         
 #>  [73] "qN_Fo"          "qL"             "1-qL"           "Qin"           
 #>  [77] "Qabs"           "alpha"          "convert"        "S"             
@@ -380,6 +337,3 @@ head(aci$data_tag)
 tail(aci$data_tag)
 #> [1] "test 2" "test 2" "test 2" "test 2" "test 2" "test 2"
 ```
-
-If you read Chinese, please refer to
-<https://photosynthesis-analysis.vercel.app/>

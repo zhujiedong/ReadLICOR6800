@@ -1,16 +1,16 @@
 Package: ReadLICOR6800
 Title: ReadLICOR6800
-Version: 0.0.0.9000
+Version: 0.1.0
 Description: A tool for read li-6800 excel files.
 Authors@R: c(
     person("Jiedong", "Zhu", , "zhujiedong@yeah.net", c("aut", "cre"))
     )
 Encoding: UTF-8
 Depends: R (>= 3.5.0)
-Imports: readxl, zoo
+Imports: openxlsx
 LazyData: yes
 License: MIT + file LICENSE
-Packaged: 2022-1-20
+Packaged: 2023-7-9
 Author: Jiedong Zhu [aut, cre]
 Maintainer: Jiedong Zhu <zhujiedong@yeah.net>
-RoxygenNote: 7.1.2
+RoxygenNote: 7.2.3

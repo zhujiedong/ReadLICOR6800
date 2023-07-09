@@ -18,9 +18,7 @@ This package is use to read the data of LI-6800 photosynthesis system from LICOR
 
 ## Important
 
-I use `readxl` to read the excel data, but you have to select **Options ---> formula ---> Enable iterative calculation** before use the package, or otherwise it will be failed in reading the excel cells that have formulas.
-
-![7HarSf.gif](https://s4.ax1x.com/2022/01/25/7HarSf.gif)
+I use `openxlsx` to read the excel data, because it can deal with the Formulas in LI-6800 excel data without any further pre-processing.
 
 
 # ReadLICOR6800
@@ -46,7 +44,7 @@ This is a basic example which shows you how to solve a common problem:
 
 ```{r example}
 library(ReadLICOR6800)
-aci <- read_li6800('inst/extdata/racirtest1.xlsx')
+aci <- read_li6800('inst/extdata/racirtest1.xlsx', startRow = 15)
 aci[1:3, 1:6]
 names(aci)
 aci$data_tag
@@ -61,6 +59,8 @@ aci <- read_li6800("inst/extdata/racirtest1.xlsx", add_tags = FALSE)
 names(aci)
 head(aci$data_tags)
 ```
+
+But be sure to supply the right `startRow` to read the data. It is the header of the measuring data, start with 'obs'(the first column)
 
 ### Read all files from a folder
 
@@ -86,7 +86,7 @@ tail(aci$data_tag)
 ```
 
 
-If you read Chinese, please refer to [https://photosynthesis-analysis.vercel.app/](https://photosynthesis-analysis.vercel.app/)
+
 
 
 
